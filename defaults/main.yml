@@ -1,0 +1,44 @@
+---
+
+dht_to_influx_user: root
+dht_to_influx_group: root
+
+dht_to_influx:
+  influx:
+    url:
+    token:
+    org:
+    bucket:
+  sensor:
+    pin: 4
+    model: 22
+    measurement_name: dht22
+    test: false
+    verbose: false
+  location:
+    host: sensor-0x
+    name: labor
+  process:
+    sleep: 60
+
+dht_to_influx_git:
+  repository: https://github.com/bodsch/dht_to_influx.git
+  version: main
+
+dht_to_influx_install_directory: /usr/local/bin/dht_to_influx
+
+dht_to_influx_python_packages:
+  - name: aiohttp
+    version: 3.8.3
+  - name: aiohttp-retry
+    version: 2.8.3
+  - name: aiosignal
+    version: 1.2.0
+  - name: async-timeout
+    version: 4.0.2
+  - name: Adafruit_DHT
+    version: 1.4.0
+  - name: influxdb-client
+    version: 1.32.0
+
+...

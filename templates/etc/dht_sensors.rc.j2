@@ -1,0 +1,19 @@
+[influx]
+url              = {{ dht_to_influx.influx.url }}
+token            = {{ dht_to_influx.influx.token }}
+org              = {{ dht_to_influx.influx.org }}
+bucket           = {{ dht_to_influx.influx.bucket }}
+
+[sensor]
+pin              = {{ dht_to_influx.sensor.pin | default('4') }}
+model            = {{ dht_to_influx.sensor.model | default('22') }}
+measurement_name = {{ dht_to_influx.sensor.measurement_name | default('dht22') }}
+test             = {{ dht_to_influx.sensor.test | default('false') | bool | ternary('true', 'false') }}
+verbose          = {{ dht_to_influx.sensor.verbose | default('false') | bool | ternary('true', 'false') }}
+
+[location]
+host             = {{ dht_to_influx.location.host | default('sensor-0x') }}
+name             = {{ dht_to_influx.location.name | default('') }}
+
+[process]
+sleep            = {{ dht_to_influx.process.sleep | default('60') }}

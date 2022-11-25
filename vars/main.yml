@@ -1,0 +1,7 @@
+---
+
+dht_to_influx_dependencies:
+  - python3-pip
+  - git
+
+...

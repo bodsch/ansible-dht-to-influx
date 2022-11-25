@@ -1,6 +1,8 @@
 
 # Ansible Role:  `dht-to-influx`
 
+Ansible Role for [dht_to_influx](https://github.com/bodsch/dht_to_influx.git).
+
 Reads DHT sensor data and writes it to an InfluxDB2.
 
 ```yaml
