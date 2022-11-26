@@ -6,7 +6,7 @@
 
 - name: restart service
   service:
-    name: dht
+    name: dht-push-to-influx
     state: restarted
 
 ...

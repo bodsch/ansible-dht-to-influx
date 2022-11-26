@@ -90,7 +90,7 @@
 - name: ensure service is enabled on boot
   become: true
   service:
-    name: dht
+    name: dht-push-to-influx
     enabled: true
     state: started
 
