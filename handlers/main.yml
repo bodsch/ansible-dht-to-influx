@@ -1,11 +1,16 @@
 ---
 
 - name: systemctl daemon-reload
-  systemd:
+  become: true
+  ansible.builtin.systemd:
     daemon_reload: true
+    force: true
+  when:
+    - ansible_service_mgr | lower == "systemd"
 
 - name: restart service
-  service:
+  become: true
+  ansible.builtin.service:
     name: dht-push-to-influx
     state: restarted
 

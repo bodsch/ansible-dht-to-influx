@@ -1,22 +1,25 @@
 ---
 
 - name: install dependecies
-  package:
+  ansible.builtin.package:
     name: "{{ dht_to_influx_dependencies }}"
     state: present
   when:
     - dht_to_influx_dependencies | default([]) | count > 0
 
 - name: python support
+  when:
+    - dht_to_influx_python_packages is defined
+    - dht_to_influx_python_packages | length > 0
   block:
     - name: create requirements.txt
-      template:
+      ansible.builtin.template:
         src: requirements.txt.j2
         dest: /tmp/dht_to_influx-requirements.txt
         mode: 0660
 
     - name: ensure python bindings for dht_to_influx packages 1st
-      pip:
+      ansible.builtin.pip:
         requirements: /tmp/dht_to_influx-requirements.txt
         state: present
         # extra_args: "--force-pi"
@@ -24,12 +27,8 @@
       ignore_errors: true
       no_log: true
 
-  when:
-    - dht_to_influx_python_packages is defined
-    - dht_to_influx_python_packages | length > 0
-
 - name: clone git sources to /opt/dht_to_influx
-  git:
+  ansible.builtin.git:
     repo: "{{ dht_to_influx_git.repository }}"
     version: "{{ dht_to_influx_git.version | default('master') }}"
     dest: /opt/dht_to_influx/
@@ -39,7 +38,7 @@
 
 - name: create dht_to_influx directory
   become: true
-  file:
+  ansible.builtin.file:
     state: directory
     owner: "{{ dht_to_influx_user }}"
     group: "{{ dht_to_influx_group }}"
@@ -48,7 +47,7 @@
 
 - name: copy files into system
   become: true
-  copy:
+  ansible.builtin.copy:
     src: "/opt/dht_to_influx/{{ item }}"
     dest: /usr/local/bin/dht_to_influx/
     owner: "{{ dht_to_influx_user }}"
@@ -59,7 +58,7 @@
     - bin
 
 - name: create link to working directory
-  file:
+  ansible.builtin.file:
     state: link
     src: /usr/local/bin/dht_to_influx/bin/dht_to_influx.py
     dest: /bin/dht_to_influx.py
@@ -70,14 +69,14 @@
 
 - name: create service config
   become: true
-  template:
+  ansible.builtin.template:
     src: etc/dht_sensors.rc.j2
     dest: /etc/dht_sensors.rc
     mode: 0644
 
 - name: create systemd unit file
   become: true
-  template:
+  ansible.builtin.template:
     src: etc/init/systemd/dht-push-to-influx.service.j2
     dest: /lib/systemd/system/dht-push-to-influx.service
     mode: 0644
@@ -85,11 +84,11 @@
     - systemctl daemon-reload
 
 - name: flush handlers
-  meta: flush_handlers
+  ansible.builtin.meta: flush_handlers
 
 - name: ensure service is enabled on boot
   become: true
-  service:
+  ansible.builtin.service:
     name: dht-push-to-influx
     enabled: true
     state: started

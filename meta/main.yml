@@ -7,7 +7,7 @@ galaxy_info:
   author: Bodo Schulz
   description: ansible role to setup dht_to_influx
   license: Apache
-  min_ansible_version: 2.9
+  min_ansible_version: "2.9"
 
   platforms:
     - name: Debian
@@ -17,7 +17,8 @@ galaxy_info:
 
   galaxy_tags:
     - raspberry
-    - dht_to_influx
+    - dht
+    - influx
     - dht
     - exporter
 
